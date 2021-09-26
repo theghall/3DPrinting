@@ -1,38 +1,65 @@
 use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
 
-module toolChest () {
-    cube([25,15,30]);
+platform();
 
-    topDrawerXOffset = 25;
-    numTopDrawers = 4;
-    topDrawerSpacing = 4;
+module toolChest (withPins=0) {
+    pin1Vector = [8,7.5,-3];
+    pin2Vector = [17,7.5,-3];
+    
+    difference() {
+        
+        union() {
+            cube([25,15,30]);
 
-    translate([2.5,13.5,topDrawerXOffset])
-    union() {
-        for (i=[0:numTopDrawers - 1]) {
-            translate([0,0,0 - (i * topDrawerSpacing)])
-            cube([20,2,3]);
+            topDrawerXOffset = 25;
+            numTopDrawers = 4;
+            topDrawerSpacing = 4;
+
+            translate([2.5,13.5,topDrawerXOffset])
+            union() {
+                for (i=[0:numTopDrawers - 1]) {
+                    translate([0,0,0 - (i * topDrawerSpacing)])
+                    cube([20,2,3]);
+                }
+
+              
+                translate([0,0, 0 - (numTopDrawers * topDrawerSpacing) - 1 ])
+                cube([20,2,4]);
+                translate([0,0, 0 - (numTopDrawers * topDrawerSpacing) - 7 ])
+                cube([20,2,5]);
+            }
         }
-
-      
-        translate([0,0, 0 - (numTopDrawers * topDrawerSpacing) - 1 ])
-        cube([20,2,4]);
-        translate([0,0, 0 - (numTopDrawers * topDrawerSpacing) - 7 ])
-        cube([20,2,5]);
+        translate(pin1Vector)
+        toolChestPin();
+        translate(pin2Vector)
+        toolChestPin();
     }
+    
+    if (withPins == 1) {
+        translate(pin1Vector)
+        toolChestPin();
+        translate(pin2Vector)
+        toolChestPin();
+    }
+    
 }
 
+module toolChestPin() {
+    rotate([0,0,67.9])
+    cylinder(d=3,h=6, $fn=8);
+}
+    
 module platformMovementLimiter() {
     magLevCylinder(d=30,h=2);
     translate([0,0,50])
     magLevCylinder(d=30,h=2);
 }
 
-module warjackPlatform() {
+module warjackPlatform(height=24) {
     difference() {
-        cylinder(d=30, h=24, $fn=128);
-        translate([0,0,24.2])
-        hollowCylinder(d=28, h=1, wallWidth=1);
+        cylinder(d=54, h=height, $fn=128);
+        translate([0,0,height-0.25])
+        hollowCylinder(d=52, h=1, wallWidth=1);
     }
 }
 
@@ -40,30 +67,31 @@ module controlPanel() {
     difference(0) {
         linear_extrude(3.2)
         scale([1,0.5, 1])
-        circle(d=15, $fn=128);
-        translate([-4,-2.5,2.8])
-        cube([8,5,0.5]);
+        circle(d=20, $fn=128);
+        translate([-5.1,-3.3,2.8])
+        cube([10,7,0.5]);
     }
 }
 
 module controlPanelSupport() {
-    magLevCylinder(h=20,d=5);
+    magLevCylinder(h=24,d=5);
 }
 
 
-module platform(cutoutDiameter=25,crossPiece=false) {
+module platform(height=24,cutoutDiameter=25,crossPiece=false) {
     union() {
         difference() {
             minkowski() {
-                cube([125,70,24], center=true);
+                echo(height);
+                cube([125,70,height], center=true);
                 cylinder(r=4,h=1, center=true);
             }
-            translate([-60,0,0])
-            cylinder(h=26, d=cutoutDiameter,center=true, $fn=128);
+            translate([-65,0,0])
+            cylinder(h=height + 2, d=cutoutDiameter,center=true, $fn=128);
         }
         if (crossPiece) {
-            translate([-52,-18,-13])
-            cube([15,35,26]);
+            translate([-52,-20,0 - (height / 2)])
+            cube([15,cutoutDiameter,height + 0.5]);
         }
     }
 }
@@ -73,17 +101,18 @@ module magLevCylinder(h=150, d=20) {
     cylinder(h=h, d=d, $fn=128);
 }
 
-module rails() {
+module rails(scale=[1,1,1]) {
     union() {
-        translate([0,17,0])
-        rail();
-        translate([0,-22,0])
-        rail();
+        translate([0,8,0])
+        rail(scale);
+        translate([0,-12,0])
+        rail(scale);
     }
 }
 
-module rail() {
-    cube([250,5,5]);
+module rail(scale=[1,1,1]) {
+    scale(scale)
+    cube([130,5,5]);
 }
 
 module craneBase() {  
