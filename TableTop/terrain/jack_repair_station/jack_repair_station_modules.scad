@@ -1,7 +1,5 @@
 use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
 
-platform();
-
 module toolChest (withPins=0) {
     pin1Vector = [8,7.5,-3];
     pin2Vector = [17,7.5,-3];
@@ -50,9 +48,9 @@ module toolChestPin() {
 }
     
 module platformMovementLimiter() {
-    magLevCylinder(d=30,h=2);
+    magLevCylinder(d=30,h=3);
     translate([0,0,50])
-    magLevCylinder(d=30,h=2);
+    magLevCylinder(d=30,h=3);
 }
 
 module warjackPlatform(height=24) {
@@ -215,55 +213,45 @@ module cut(deg=0) {
     rotate([0,0,deg])
     cube([30,30,6]);
 }
-    
 module weaponCrateBottom() {
     difference() {
         difference() {
-            cube([50.5,15,10], center=true);
+            cube([50.5,30,10], center=true);
             translate([0,0,4])
             cube([45.5,14,3], center=true);
         }
-        translate([-12,-4,0])
+        translate([-16,-5,0])
         union() {
-            cube([25,5,3]);
-            translate([15,2.5,0])
+            cube([32,11,7]);
+            translate([14,5.5,0])
             rotate([0,0,45])
-            cube([5,3,3]);
+            cube([7.5,9.5,7]);
         }
     }
+    
+    translate([-4,16.3,2.5])
+    rotate([90,0,0])
+    rotate([0,90,0])
+    cylinder(d=6, h=8, $fn=3);
 }
 
 module weaponCrateTop() {
-    cube([50.5,15,2], center=true);
+    cube([50.5,30,2], center=true);
     translate([0,0,2])
     cube([45.5,14,3], center=true);
     
 }
 
-module platformLift() {
-   union() {
-    cube([35,35,5]);
-    translate([-14,35,0])
-    rotate([90,0,0])
-    wedge(20, 14, 14.8, height = 35);
-   }
+module personnelLift() {
+ union() {
+     personnelLiftPlatform();
+     translate([-4,6.5,0])
+     personnelLiftGuide();
+ }
 }
 
-module personalLift() {
-  minkowski() {
-    cube([70,40,5], center=true);
-    cylinder(r=4,h=1, center=true);
-  }
-  
-  translate([-20,6.5,5])
-  difference() {
-    cylinder(d=34, h=6, center=true, $fn=128);
-    translate([0,0,3.5])
-    hollowCylinder(d=33,h=2, wallWidth=1);
-  }
-  
-  translate([-4,6.5,0])
-  union() {
+module personnelLiftGuide() {
+    union() {
       translate([0,0,75])
       rotate([0,90,0])
       cube([150,5,5], center=true);
@@ -271,6 +259,24 @@ module personalLift() {
       rotate([0,90,0])
       cube([150,35,10], center=true);
   }
+}
+
+module personnelLiftPlatform() {
+  minkowski() {
+    cube([70,40,5], center=true);
+    cylinder(r=4,h=1, center=true);
+  }
+
+  translate([-20,6.5,5])
+  difference() {
+    cylinder(d=34, h=6, center=true, $fn=128);
+    translate([0,0,3.5])
+    hollowCylinder(d=33,h=2, wallWidth=1);
+  }
+  
+    translate([-53.5,20,-2.9])
+    rotate([90,0,0])
+    wedge(22, 14.8, 16, height = 30);
 }
 
 module smallCraneBase() {

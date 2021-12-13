@@ -8,7 +8,7 @@ translate([20,-13,27])
 rotate([0,0,90])
 toolChest();
 
-translate([0,0,12.5])
+translate([0,0,10.5])
 union() {
     platform(20, 57);
     translate([35,0,15])
@@ -24,7 +24,7 @@ translate([-140,0])
 rails();
 
 translate([-90,0,2])
-warjackPlatform(20);
+warjackPlatform(19);
 
 translate([-5,30,27])
 controlPanelComplete();
