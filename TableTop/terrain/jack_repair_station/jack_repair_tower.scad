@@ -8,24 +8,23 @@ translate([20,-13,27])
 rotate([0,0,90])
 toolChest();
 
-translate([0,0,12.5])
+translate([0,0,10.5])
 union() {
-    translate([0,0,2])
-    platform(32);
+    platform(20, 57);
     translate([35,0,15])
     platformMovementLimiter();
-    translate([0,0,90])
-    platform(40, true);
+    translate([0,0,96.5])
+    platform(12, 40, true);
     translate([35,0,0])
     magLevCylinder();
 }
 
 
-translate([-115,0,0])
+translate([-140,0])
 rails();
 
-translate([-90,0,0])
-warjackPlatform();
+translate([-90,0,2])
+warjackPlatform(19);
 
 translate([-5,30,27])
 controlPanelComplete();
@@ -35,14 +34,14 @@ controlPanelComplete();
 
 module controlPanelComplete() {
     union() {
-        translate([0,0,18.5])
-        rotate([45,0,0])
+        translate([0,0,22.5])
+        rotate([33,0,0])
         controlPanel();
         controlPanelSupport();
     }
 }
 
-translate([91,0,5])
+translate([91,0,3])
 rotate([0,0,90])
 personalLift();
 
