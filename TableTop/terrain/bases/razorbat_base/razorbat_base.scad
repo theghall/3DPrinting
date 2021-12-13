@@ -74,7 +74,7 @@ module razorbat_pillar2(h=100) {
 }
 
 module base_border() {
-    hollowCylinder(d=83,h=115,wallWidth=5);
+    hollowCylinder(d=81,h=115,wallWidth=5);
 }
 
 module razorbat_mock() {
