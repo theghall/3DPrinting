@@ -1,4 +1,11 @@
+use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
 use </Users/dollarg/Documents/3DPrinting/TableTop/tokens/marker.scad>
+
+//color("blue") tokenTray();
+//translate([72,72,30])
+//color("red") tokenTrayLid();
+
+roundTracker();
 
 module cardTray(width=68, depth=95, height=15, text="TBD", textOffset=25, arcWell=false) {
         difference() {
@@ -33,57 +40,166 @@ module arcWell() {
 }
 
 module tokenTray() {
+   height=32;
+   bottomThickness = 3;
+    
    difference() {
-    cube([110,133,12]);
-    for(y = [3 : 17 : 40]) {
-      for(x = [3 : 18 : 40]) {
-          translate([x,y,2])
-          cube([15,15,12]);
-      }
-    }
-    translate([3,60,2])
-    cube([50,70,12]);
-    translate([57,60,2])
-    cube([50,70,12]);
-    translate([57,28.5,2])
-    cube([50,23.5,12]);
-    translate([57,3,2])
-    cube([50,23.5,12]);
+    // shell
+    translate([0,24,0])
+    cube([144,138,height]);
+
+    // dice holder
+    translate([3,60,bottomThickness])
+    cube([50,70,height]);
+    translate([57,60,bottomThickness])
+    cube([50,70,height]);
+       
+ 
+    // ARC and DMG holder
+    translate([3,28.5,bottomThickness])
+    cube([137,28,height]);
+    
+    // Small unit token holder
+    translate([112.5,60,bottomThickness+5.1])
+    cube([24,98,24]);
+       
+    // Jack token holder   
+    translate([3,133,bottomThickness])   
+    cube([104,25,height]);
+    
+    // ????
+//    translate([-1,-6,bottomThickness])
+//    cube([125,30,height]);
    }
+   
+   translate([70,25,17])
+   // Tokens
+   difference() {
+       union() {
+       difference() {
+          translate([0,-10,-1])
+          scale([1.5,1,1])
+          hollowCylinder(d=73,h=height, wallWidth=25);
+          translate([-55,-1,-15])
+          cube([125,70,31]);
+       }
+       translate([-37,-22,-16.9])
+       cube([75,22,height]);
+       }
+       
+       translate([-50,-8,height-30])
+       smallTokenHolder(height+0.1);
+       translate([-47,-22,height-30])
+       smallTokenHolder(height+0.1);
+       translate([-35,-32,height-30])
+       largeTokenHolder(height+0.1);
+       translate([-19,-38,height-30])
+       largeTokenHolder(height+0.1);
+       translate([-1,-40,height-30])
+       largeTokenHolder(height+0.1);
+       translate([17,-39,height-30])
+       largeTokenHolder(height+0.1);
+       translate([33,-32,height-30])
+       largeTokenHolder(height+0.1);
+       translate([47,-23,height-30])
+       smallTokenHolder(height+0.1);
+       translate([51,-9,height-30])
+       smallTokenHolder(height+0.1);
+      
+       // Pulse Round Tracker
+       translate([-37,-17,10.7])
+       union() {
+           for (i=[0:12:64]) {
+            translate([2+i,2,0])
+            cube([10,10,5]);
+           }
+       }
+       
+       for (i=[0:5]) {
+         translate([-32.5+(12*i),-13,10.1])
+         linear_extrude(2.1) {
+         text(str(i+1), size=7);
+         }
+        }
+        
+       // Game Round Tracker
+       translate([-20,-30,10.7])
+       union() {
+           for (i=[0:12:24]) {
+            translate([2+i,2,0])
+            cube([10,10,5]);
+           }
+       }
+       
+       for (i=[0:2]) {
+         translate([-16+(12*i),-26,10.1])
+         linear_extrude(2.1) {
+         text(str(i+1), size=7);
+         }
+        }
+   }
+   
+}
+
+module largeTokenHolder(height) {
+    cylinder(d=16,h=height+0.1);
+}
+
+module smallTokenHolder(height) {
+    cylinder(d=13,h=height+0.1);
+}
+
+module roundTracker() {
+    t="\u21BB";
+    difference() {
+        cylinder(d=9, h=10, $fn=8);
+        translate([-4,-4,9])
+        linear_extrude(2)
+        text(t, size=7.3, font="Arial Unicode MS:style=Regular");
+    }
+}
+
+module roundBlocker() {
+   difference() {
+    cylinder(d=9, h=10, $fn=8);
+    translate([-4,-4,9])
+    linear_extrude(2)
+    text("X", size=7.3, font="Arial Unicode MS:style=Regular");
+}
 }
 
 module tokenTrayLid() {
-   width=136;
-   depth=113;
+   width=147.5;
+   depth=187;
    difference() {
-    cube([width, depth,11], center=true);
+    cube([width, depth,22], center=true);
     translate([0,0,-3])
-    cube([width-3, depth-3,11], center=true);
+    cube([width-3, depth-3,22], center=true);
    }
-   translate([0,0,7])
+   translate([0,0,13])
    cylinder(d=50, h=3, center=true);
-   translate([0,3,8.5])
+   translate([0,3,14.5])
    logo();
-   translate([0,0,6])
+   translate([0,0,11])
    lidEdging(width=width,depth=depth,addSpheres=true);
 }
 
 module lidEdging(width,depth, addSpheres=true) {
     difference() {
-        cube([width,depth, 1], center=true);
-        cube([width-10,depth-10,1.1], center=true);
+        cube([width,depth, 2], center=true);
+        cube([width-10,depth-10,2.1], center=true);
     }
     if (addSpheres) {
         for(x = [4 : 10 : width-5]) {
-            translate([x-(width/2)+3,(depth/2)-2.5,0])
+            translate([x-(width/2)+4.5,(depth/2)-2.5,0])
             lidRivet([0,0,0]);
-            translate([((x-(width/2))*-1)-3,((depth/2)-2.5)*-1,0])
+            translate([((x-(width/2))*-1)-4.5,((depth/2)-2.5)*-1,0])
             lidRivet([0,0,0]);
         }
         for(y = [7 : 10 : depth-5]) {
-            translate([(width/2)-2.5,y-(depth/2),0])
+            translate([(width/2)-2.5,y-(depth/2)+2.5,0])
             lidRivet([0,0,30]);
-            translate([((width/2)-2.5)*-1,(y-(depth/2))*-1,0])
+            translate([((width/2)-2.5)*-1,(y-(depth/2)+2.5)*-1,0])
             lidRivet([0,0,30]);
         }
     }    
