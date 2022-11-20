@@ -1,7 +1,3 @@
-radius = 15;
-angles = [280, 300];
-width = 2;
-fn = 24;
 
 module sector(radius, angles, fn = 24) {
     r = radius / cos(180 / fn);
@@ -25,5 +21,9 @@ module arc(radius, angles, width = 1, fn = 24) {
         sector(radius + width, angles, fn);
         //sector(radius, angles, fn);
     }
-} 
+}
+
+module curvedSheet(width, height, radius, angle) {
+    rotate_extrude(angle = angle, $fn=128) translate([radius, 0, 0]) square(size = [height, width], center = true);
+}
 
