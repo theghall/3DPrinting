@@ -6,7 +6,7 @@ rockLevel(rands(12,30,71,45));
 difference() {
     difference() {
         translate([0,0,5])
-        scale([0.7,0.7,1])
+        scale([0.8,0.8,1])
         rockLevel(rands(12,30,71,12));
         translate([-20,-20,7])
         rotate([4.4,0,0])
@@ -27,7 +27,7 @@ module rockLevel(zAngleVector) {
     for (i=[0:70]) {
         vector = [0,0,sum(select(zAngleVector, [0:1:i]))];
         rotate(vector)
-        cube([18,18,5]);
+        cube([16,16,5]);
     }
 }
 
