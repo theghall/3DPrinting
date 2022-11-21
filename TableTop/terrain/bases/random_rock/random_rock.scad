@@ -1,24 +1,29 @@
 use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
+use </Users/dollarg/Documents/3DPrinting/scad_modules/table_top_base_modules.scad>
 
-translate([5,3.7,0])
-cylinder(d=23, h=3, $fn=128);
 
-difference() {
-    translate([0,0,1])
-    union() {
-        for (y=[-2:2]) {
-            for (x=[0:2]) {
-                translate([0,0,0])
-                randomRockSlab(3+x+y);
-                translate([8*x,-5*y,0])
-                randomRockSlab(10+x+y);
-                translate([-8*x,-5*y,0])
-                randomRockSlab(12+x+y);
+
+module randomRockBase(size=0, height=3) {
+    difference() {
+        union() {
+            translate([5,3.7,0])
+            cylinder(d=50, h=height, $fn=128);
+            translate([0,0,1])
+            for (y=[-2:2]) {
+                for (x=[0:2]) {
+                    translate([0,0,0])
+                    randomRockSlab(3+x+y);
+                    translate([8*x,-5*y,0])
+                    randomRockSlab(10+x+y);
+                    translate([-8*x,-5*y,0])
+                    randomRockSlab(12+x+y);
+                }
             }
         }
-    }   
-    translate([5,3.7,0])
-    hollowCylinder(d=65, h=15, wallWidth=21);
+        translate([5,5,0])
+        baseEdger(size=size, height=height+3);
+
+    }
 }
 
 
