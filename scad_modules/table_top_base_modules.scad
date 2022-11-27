@@ -1,4 +1,4 @@
-use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
+use <general_use_modules.scad>
 
 baseEdgeDiameters = [23, 37, 47, 79, 20];
 
