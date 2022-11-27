@@ -1,6 +1,6 @@
-use </Users/dollarg/Documents/3DPrinting/scad_modules/general_use_modules.scad>
-use </Users/dollarg/Documents/3DPrinting/scad_modules/table_top_base_modules.scad>
-use </Users/dollarg/Documents/3DPrinting/scad_modules/arc_module.scad>
+use <../../../../scad_modules/general_use_modules.scad>
+use <../../../../scad_modules/table_top_base_modules.scad>
+use <../../../../scad_modules/arc_module.scad>
 
 difference() {
         // Front Curve
