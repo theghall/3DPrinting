@@ -3,7 +3,7 @@ module sector(radius, angles, fn = 24) {
     r = radius / cos(180 / fn);
     step = -360 / fn;
 
-    points = concat([[0, 0]],
+    pointy = concat([[0, 0]],
         [for(a = [angles[0] : step : angles[1] - 360]) 
             [r * cos(a), r * sin(a)]
         ],
