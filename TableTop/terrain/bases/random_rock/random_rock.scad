@@ -1,9 +1,9 @@
 use <../../../../scad_modules/general_use_modules.scad>
 use <../../../../scad_modules/table_top_base_modules.scad>
 
+randomRockBase();
 
-
-module randomRockBase(size=0, height=3) {
+module randomRockBase(baseSize="30mm", height=3) {
     difference() {
         union() {
             translate([5,3.7,0])
@@ -21,7 +21,7 @@ module randomRockBase(size=0, height=3) {
             }
         }
         translate([5,5,0])
-        baseEdger(size=size, height=height+3);
+        #baseEdger(baseSize=baseSize, height=height);
 
     }
 }
